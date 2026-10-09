@@ -76,7 +76,7 @@ public sealed class ThreeInOneMenu : MonoBehaviour
         GameButton("FLY LIKE A BIRD", "Challenge 1");
         GameButton("SUMO BALL", "Challenge 4");
         GUILayout.Space(8);
-        if (GUILayout.Button("QUIT GAME", buttonStyle, GUILayout.Height(ButtonHeight()))) Application.Quit();
+        if (GUILayout.Button("QUIT GAME", buttonStyle, GUILayout.Height(ButtonHeight()))) QuitGame();
         GUILayout.FlexibleSpace();
         GUILayout.Label("SELECT A GAME  •  ESC TO PAUSE", footerStyle);
         GUILayout.EndArea();
@@ -108,6 +108,15 @@ public sealed class ThreeInOneMenu : MonoBehaviour
     private void Resume() { isPaused = false; Time.timeScale = 1f; }
     private void Restart() { Time.timeScale = 1f; isPaused = false; SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); }
     private void GoToMainMenu() { Time.timeScale = 1f; isPaused = false; SceneManager.LoadScene(MainMenuScene); }
+
+    private static void QuitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }
 
     private static void DrawSolid(Rect rect, Color color)
     {
